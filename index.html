@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bill of Sale Generator</title>
+<meta name="description" content="Create a printable bill of sale for a private sale of a vehicle, furniture, electronics, or anything else — free, in your browser, no account or upload.">
+<meta name="robots" content="index,follow">
+<style>
+:root{--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--bg:#f8fafc;--card:#ffffff;--accent:#7c3aed}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+header,main,footer{max-width:760px;margin:0 auto;padding:0 16px}
+header{padding-top:24px}
+h1{font-size:1.6rem;margin:.2rem 0 .2rem}
+h2{font-size:1.1rem;margin:1.4rem 0 .4rem}
+.tag{color:var(--muted);margin:0 0 1rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin:14px 0}
+label{display:block;font-weight:600;margin:.6rem 0 .2rem}
+input[type=text],input[type=date],input[type=number],textarea{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;font:inherit;box-sizing:border-box}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.row{grid-template-columns:1fr}}
+button{font:inherit;padding:10px 16px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.note{color:var(--muted);font-size:.9rem}
+.privacy{border-left:4px solid var(--accent);padding-left:10px;color:var(--muted);font-size:.95rem}
+footer{color:var(--muted);font-size:.85rem;padding:24px 16px 40px}
+#status{margin:.5rem 0;font-weight:600}
+.toggle{display:flex;align-items:center;gap:8px;margin:.6rem 0}
+.toggle input{width:auto}
+.vehicle-fields{display:none}
+.vehicle-fields.show{display:block}
+.ad-slot{margin:18px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Bill of Sale Generator</h1>
+  <p class="tag">Fill this in and print a clean, dated bill of sale for a private sale. Nothing you type leaves this page.</p>
+</header>
+<main>
+  <section class="card privacy">
+    <strong>Nothing is uploaded.</strong> This form runs entirely in your browser. No account, no server, no copy kept anywhere but the PDF or printout you make.
+  </section>
+
+  <section class="card">
+    <h2>1. Seller</h2>
+    <label for="sellerName">Full name</label>
+    <input type="text" id="sellerName">
+    <label for="sellerAddr">Address</label>
+    <input type="text" id="sellerAddr">
+  </section>
+
+  <section class="card">
+    <h2>2. Buyer</h2>
+    <label for="buyerName">Full name</label>
+    <input type="text" id="buyerName">
+    <label for="buyerAddr">Address</label>
+    <input type="text" id="buyerAddr">
+  </section>
+
+  <section class="card">
+    <h2>3. What's being sold</h2>
+    <label for="itemDesc">Description</label>
+    <textarea id="itemDesc" rows="3" placeholder="e.g. Samsung 55&quot; QLED TV, model QN55Q60C, serial ABC123, purchased 2024, minor scratch on stand"></textarea>
+    <div class="toggle">
+      <input type="checkbox" id="isVehicle">
+      <label for="isVehicle" style="margin:0">This is a motor vehicle</label>
+    </div>
+    <div class="vehicle-fields" id="vehicleFields">
+      <div class="row">
+        <div><label for="vYear">Year</label><input type="text" id="vYear"></div>
+        <div><label for="vMake">Make</label><input type="text" id="vMake"></div>
+      </div>
+      <div class="row">
+        <div><label for="vModel">Model</label><input type="text" id="vModel"></div>
+        <div><label for="vOdo">Odometer reading</label><input type="text" id="vOdo"></div>
+      </div>
+      <label for="vVin">VIN</label>
+      <input type="text" id="vVin">
+      <p class="note">Selling a vehicle usually also requires your state's own title-transfer paperwork at the DMV — this bill of sale is a record of the private transaction, not a substitute for that.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>4. Terms</h2>
+    <div class="row">
+      <div><label for="price">Sale price ($)</label><input type="number" id="price" min="0" step="0.01"></div>
+      <div><label for="saleDate">Date of sale</label><input type="date" id="saleDate"></div>
+    </div>
+    <label for="payMethod">Payment method</label>
+    <input type="text" id="payMethod" placeholder="e.g. Cash, Venmo, Cashier's check">
+    <div class="toggle">
+      <input type="checkbox" id="asIs" checked>
+      <label for="asIs" style="margin:0">Sold "as-is," with no warranty</label>
+    </div>
+  </section>
+
+  <button class="primary" id="gen">Generate bill of sale</button>
+  <p id="status" aria-live="polite"></p>
+
+  <div class="ad-slot" id="ad-slot"></div>
+</main>
+<footer>
+  General information only, not legal advice. Requirements for notarizing a bill of sale, or for transferring title on a vehicle, vary by state — check with your state's DMV or a local attorney for anything beyond a simple private sale.
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
