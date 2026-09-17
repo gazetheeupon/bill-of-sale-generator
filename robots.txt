@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gazetheeupon.github.io/bill-of-sale-generator/sitemap.xml
